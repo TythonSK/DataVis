@@ -1,7 +1,9 @@
+/*ChartDisplay.css*/
 .chart-container {
   margin-top: 40px;
   width: 80%;
   margin: 0 auto;
+  flex: 1;
 }
 
 .chart-container canvas {

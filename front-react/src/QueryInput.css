@@ -1,5 +1,7 @@
+/*QueryInput.css*/
 .query-container {
-  margin-top: 20px;
+  width: 100%;
+  text-align: center;
 }
 
 .query-input {
@@ -14,9 +16,10 @@
 .query-submit {
   padding: 10px 20px;
   font-size: 1rem;
-  color: white;
+  color: black;
   background-color: #ff007f;
-  border: none;
+  border: 5px;
+  background-color: #ffffff;
   border-radius: 5px;
   cursor: pointer;
 }
