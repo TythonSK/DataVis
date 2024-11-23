@@ -1,12 +1,12 @@
 /*ChartDisplay.css*/
-.chart-container {
-  margin-top: 40px;
-  width: 80%;
-  margin: 0 auto;
-  flex: 1;
+.ChartDisplay {
+  width: 100%;              /* Full width of the parent */
+  height: 1000px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-.chart-container canvas {
-  max-width: 100%;
-  height: auto;
+.chart-canvas {
+  width: 100%;              /* Take up full width of the parent container */
+  height: 100%;             /* Take up full height of the parent container */
 }

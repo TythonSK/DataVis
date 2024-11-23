@@ -57,13 +57,13 @@ function App() {
           <div className="data-container">
             {/* Text output on the left */}
             <div className="card DataDisplay">
-              <h3>Text Output</h3>
               <DataDisplay text={data.text} />
             </div>
 
             {/* Visualized data (Chart) on the right */}
             <div className="card ChartDisplay">
-              <h3>Visualized Data</h3>
+              <ChartDisplay data={data} />
+              <ChartDisplay data={data} />
               <ChartDisplay data={data} />
             </div>
           </div>

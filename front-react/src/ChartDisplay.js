@@ -20,9 +20,9 @@ const ChartDisplay = ({ data }) => {
   };
 
   return (
-    <div className="card">
-      <h3>Visualized Data</h3>
-      <Line data={chartData} />
+    <div className="card ChartDisplay">
+      {/* The responsive option ensures the chart adjusts automatically */}
+      <Line data={chartData} options={{ responsive: true, maintainAspectRatio: false }} />
     </div>
   );
 };
