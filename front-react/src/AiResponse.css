@@ -1,0 +1,23 @@
+.spinner {
+  font-size: 1.5rem;
+  color: #ff007f;
+  margin: 20px;
+}
+
+.card {
+  background-color: white;
+  padding: 20px;
+  margin: 10px auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 50%;
+}
+
+.card h3 {
+  color: #ff007f;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #333;
+}
