@@ -70,7 +70,7 @@ def process_question(question):
 
 # Príklad otázky
 def search_from_datasets(country, continent, question):
-    path = "data"
+    path = "backend/data"
     if continent == "Europe":
         path+= "/europe/time_series_covid19_deaths_global.csv"
     elif continent == "Asia":
