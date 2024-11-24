@@ -1,39 +1,16 @@
+from contextlib import nullcontext
+
 import pandas as pd
 from dotenv import load_dotenv
 import os
 import openai
+import time
+
+from pyexpat.errors import messages
 
 # Načítanie API kľúča z .env súboru
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
-
-# Načítanie datasetu
-data = pd.read_csv("data/europe/time_series_covid19_deaths_global.csv")
-
-
-# Preprocessing dát: zgrupujeme podľa krajín
-def preprocess_data(data):
-    if "Country/Region" in data.columns:
-        country_col = "Country/Region"
-    elif "Region" in data.columns:
-        country_col = "Region"
-    else:
-        raise ValueError("Dataset neobsahuje stĺpec s názvom krajiny.")
-
-    # Skupina dát podľa krajín a spočítanie celkových úmrtí
-    grouped_data = data.groupby(country_col).sum()
-    return grouped_data
-
-
-grouped_data = preprocess_data(data)
-
-
-# Funkcia na získanie úmrtí pre danú krajinu
-def get_deaths_for_country(country_name):
-    if country_name not in grouped_data.index:
-        return f"Dáta pre krajinu {country_name} nie sú k dispozícii."
-    total_deaths = grouped_data.loc[country_name].sum()
-    return f"Celkový počet úmrtí v krajine {country_name} je {int(total_deaths)}."
 
 # Funkcia na spracovanie otázky
 def process_question(question):
@@ -45,30 +22,99 @@ def process_question(question):
         model="gpt-4",
         messages=[
             {"role": "system", "content": "You are an AI assistant that only answers questions about COVID-19 data from a dataset."},
-            # {"role": "user", "content": f"Otázka: {question}. Týka sa táto otázka COVID-19 úmrtí v konkrétnej krajine?"}
+            {"role": "user", "content": f"Question: {question}. Does this question refer to COVID-19 deaths?"}
         ]
     )
 
     gpt_response = response.choices[0].message.content
-    print("toto je response: ", gpt_response)
 
     if "áno" in gpt_response or "ano" in gpt_response or "Áno" in gpt_response or "Ano" in gpt_response\
             or "yes" in gpt_response or "Yes" in gpt_response:
         country_response = client.chat.completions.create(
             model="gpt-4",
             messages=[
-                {"role": "system", "content": "Si AI asistent. Extrahuj názov krajiny z nasledujúcej otázky a prelož ho do angličtiny."},
-                {"role": "user", "content": f"Otázka: {question}"}
+                {"role": "system", "content": "Extract the country name from this question."},
+                {"role": "user", "content": f"Question: {question}"}
             ]
         )
         country_name = country_response.choices[0].message.content
-        #country_name = "Albania"
-        return get_deaths_for_country(country_name)
+
+        continent_response = client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system",
+                 "content": "Your role is to provide information about countries and their continents."},
+                {"role": "user", "content": f"Which continent is {country_name} located in?"}
+            ]
+        )
+
+        continent = client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "Extract the continent name from this sentence."},
+                {"role": "user", "content": f"Sentence: {continent_response.choices[0].message.content}"}
+            ]
+        )
+
+        continent_name =  continent.choices[0].message.content
+        print("continent name: ", continent_name)
+
+        # country_name = "Albania"
+        # return get_deaths_for_country(country_name)
+        print("country respose: ", country_name)
+        print(country_name, continent_name)
+        return search_from_datasets(country_name, continent_name, question)
     else:
-        return "Neviem odpovedať na otázku, pretože sa netýka úmrtí na COVID-19."
+        return "I can't answer the question because it doesn't concern deaths from COVID-19."
 
 
 # Príklad otázky
+def search_from_datasets(country, continent, question):
+    path = "data"
+    if continent == "Europe":
+        path+= "/europe/time_series_covid19_deaths_global.csv"
+    elif continent == "Asia":
+        path+= "/asia/time_series_covid19_deaths_global.csv"
+    elif continent == "Australia":
+        path+= "/australia/time_series_covid19_deaths_global.csv"
+    elif continent == "North America":
+        path+= "/north_america/time_series_covid19_deaths_global.csv"
+    elif continent == "South America":
+        path+= "/south_america/time_series_covid19_deaths_global.csv"
+    elif continent == "Africa":
+        path+= "/africa/time_series_covid19_deaths_global.csv"
+
+    # Načítanie datasetu
+    dataset = pd.read_csv(path)
+    if dataset is None:
+        return f"Dataset pre kontinent {continent} nebol nájdený."
+
+    country_data = dataset[dataset["Country/Region"] == country]
+    total_deaths = country_data.iloc[:, 4:].sum(axis=0).sum()
+    print(f"Total deaths: {total_deaths}")
+
+    prompt = f"""
+    Question: {question}
+    Country: {country}
+    Total Deaths: {total_deaths}
+    You must provide a simple answer to the question asked based on this available data.
+    """
+    client = openai.Client(api_key=api_key)
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "You are an AI assistant who answers a question."},
+            {"role": "user", "content": prompt}
+        ]
+    )
+
+    # Vrátenie odpovede
+    answer = response.choices[0].message.content
+    return answer
+
+
 if __name__ == "__main__":
-    question = "How much people dead on covid-19 in Slovakia?"
-    print(process_question(question))
+    question = "How many people died from covid 19 in China?"
+    result = process_question(question)
+    print(result)
+
