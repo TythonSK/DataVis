@@ -19,11 +19,9 @@ const DatasetSelector = ({ setCsvChartData, chartRef }) => {
     }
   };
 
-  // Function to download the chart as PNG
   const handleDownloadClick = () => {
     if (chartRef.current) {
       html2canvas(chartRef.current).then((canvas) => {
-        // Convert canvas to a PNG and download it
         const link = document.createElement('a');
         link.href = canvas.toDataURL('image/png');
         link.download = 'chart.png';
@@ -34,8 +32,17 @@ const DatasetSelector = ({ setCsvChartData, chartRef }) => {
 
   return (
     <div className="controls">
-      {/* File upload for CSV */}
-      <input type="file" className="upload-dataset" accept=".csv" onChange={handleFileUpload} />
+      {/* File upload button with styled label */}
+      <label htmlFor="upload-dataset" className="upload-btn">
+        Vybrať Súbor
+      </label>
+      <input
+        id="upload-dataset"
+        type="file"
+        className="upload-dataset"
+        accept=".csv"
+        onChange={handleFileUpload}
+      />
 
       {/* Download PNG Button */}
       <button onClick={handleDownloadClick} className="download-btn">

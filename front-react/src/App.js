@@ -40,6 +40,13 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        {/* Logo placed in the top-left corner */}
+        <img
+          src="/datavis-shark.png"
+          alt="Logo"
+          className="logo"
+        />
+
         <h1>Data Visualisation by Žralokovia</h1>
 
         {/* Dataset Selector */}

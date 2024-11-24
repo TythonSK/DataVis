@@ -18,7 +18,7 @@ input[type="file"] {
 }
 
 .upload-dataset {
-  width: 300px;
+  width: 303px;
 }
 
 /* Styling the download button to match the design */
@@ -44,6 +44,39 @@ input[type="file"] {
 }
 
 .download-btn:focus {
+  outline: none;
+  border-color: #bbb; /* Focused border color */
+}
+
+/* Hides the default file input */
+.upload-dataset {
+  display: none; /* File input hidden */
+}
+
+/* Custom label styled to match the button */
+.upload-btn {
+  margin-left: 10px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  color: #333;
+  width: 200px;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block; /* Ensures proper button styling */
+}
+
+.upload-btn:hover {
+  background-color: #e0e0e0; /* Lighten the background on hover */
+}
+
+.upload-btn:active {
+  background-color: #d0d0d0; /* Slightly darker when clicked */
+}
+
+.upload-btn:focus {
   outline: none;
   border-color: #bbb; /* Focused border color */
 }

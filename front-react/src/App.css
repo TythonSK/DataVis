@@ -64,3 +64,16 @@ h1 {
   width: 100%; /* Takes up full width of the parent container */
   height: 100%; /* Takes up full height of the parent container */
 }
+
+/* Position the logo in the top-left corner */
+.App-header {
+  position: relative;
+}
+
+.logo {
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  width: 100px; /* Adjust size as needed */
+  height: auto;
+}
