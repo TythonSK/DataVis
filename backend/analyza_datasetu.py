@@ -70,7 +70,7 @@ def process_question(question):
 
 # Príklad otázky
 def search_from_datasets(country, continent, question):
-    path = "backend/data"
+    path = "C:/Users/Robik25/DataVis/backend/data"
     if continent == "Europe":
         path+= "/europe/time_series_covid19_deaths_global.csv"
     elif continent == "Asia":
@@ -83,11 +83,17 @@ def search_from_datasets(country, continent, question):
         path+= "/south_america/time_series_covid19_deaths_global.csv"
     elif continent == "Africa":
         path+= "/africa/time_series_covid19_deaths_global.csv"
+        
+
+    print(path)
+
+
 
     # Načítanie datasetu
     dataset = pd.read_csv(path)
     if dataset is None:
         return f"Dataset pre kontinent {continent} nebol nájdený."
+    print(path)
 
     country_data = dataset[dataset["Country/Region"] == country]
     total_deaths = country_data.iloc[:, 4:].sum(axis=0).sum()

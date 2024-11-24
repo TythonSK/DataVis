@@ -26,7 +26,7 @@ def handle_query():
 
         # Process the question and get the response from analyza_datasetu.py
         response = process_question(question)  # Directly call the function
-        return jsonify({'response': response})
+        return jsonify({'response': response}) 
     
     except Exception as e:
         print(f"Error: {str(e)}")
