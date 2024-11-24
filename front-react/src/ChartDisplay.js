@@ -5,7 +5,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const ChartDisplay = ({ data }) => {
+const ChartDisplay = ({ data, chartRef }) => {
   const fallbackData = {
     labels: ['No Data'], // Default labels
     datasets: [
@@ -20,11 +20,11 @@ const ChartDisplay = ({ data }) => {
 
   const chartData = data?.labels && data?.chartData
     ? {
-        labels: data.labels, // Pass labels from the parent component
+        labels: data.labels,
         datasets: [
           {
             label: 'Confirmed Cases',
-            data: data.chartData, // Pass dataset values
+            data: data.chartData,
             backgroundColor: 'rgba(75, 192, 192, 0.5)',
             borderColor: 'rgba(75, 192, 192, 0.8)',
             fill: false,
@@ -34,7 +34,7 @@ const ChartDisplay = ({ data }) => {
     : fallbackData;
 
   return (
-    <div className="card ChartDisplay">
+    <div className="chart-canvas" ref={chartRef}> {/* Attach ref here */}
       <Line
         data={chartData}
         options={{
@@ -49,6 +49,5 @@ const ChartDisplay = ({ data }) => {
     </div>
   );
 };
-
 
 export default ChartDisplay;

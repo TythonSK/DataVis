@@ -2,7 +2,7 @@ import React from 'react';
 import { parseCSVData } from './CSVToDataParser'; // Import the CSV parser function
 import html2canvas from 'html2canvas';
 
-const DatasetSelector = ({ dataset, setDataset, model, setModel, setCsvChartData, chartRef }) => {
+const DatasetSelector = ({ setCsvChartData, chartRef }) => {
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -34,26 +34,6 @@ const DatasetSelector = ({ dataset, setDataset, model, setModel, setCsvChartData
 
   return (
     <div className="controls">
-      <select
-        className="dataset-select"
-        value={dataset || ""}
-        onChange={(e) => setDataset(e.target.value)}
-      >
-        <option value="">Choose dataset</option>
-        <option value="dataset1">Dataset 1</option>
-        <option value="dataset2">Dataset 2</option>
-      </select>
-
-      <select
-        className="model-select"
-        value={model || ""}
-        onChange={(e) => setModel(e.target.value)}
-      >
-        <option value="">Predictive model</option>
-        <option value="model1">Model 1</option>
-        <option value="model2">Model 2</option>
-      </select>
-
       {/* File upload for CSV */}
       <input type="file" className="upload-dataset" accept=".csv" onChange={handleFileUpload} />
 
