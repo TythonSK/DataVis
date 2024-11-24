@@ -1,9 +1,10 @@
-/*DataSelector.css*/
+/* Keeps existing styles for select and file input */
 .controls {
   margin-bottom: 20px;
 }
 
-select, input[type="file"] {
+select,
+input[type="file"] {
   margin: 10px;
   padding: 10px;
   font-size: 1rem;
@@ -11,10 +12,38 @@ select, input[type="file"] {
   border-radius: 5px;
 }
 
-.dataset-select, .model-select {
+.dataset-select,
+.model-select {
   width: 200px;
 }
 
 .upload-dataset {
   width: 300px;
+}
+
+/* Styling the download button to match the design */
+.download-btn {
+  margin: 10px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  color: #333;
+  width: 200px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.download-btn:hover {
+  background-color: #e0e0e0; /* Lighten the background on hover */
+}
+
+.download-btn:active {
+  background-color: #d0d0d0; /* Slightly darker when clicked */
+}
+
+.download-btn:focus {
+  outline: none;
+  border-color: #bbb; /* Focused border color */
 }

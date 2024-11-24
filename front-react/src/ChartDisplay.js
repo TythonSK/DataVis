@@ -6,28 +6,28 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const ChartDisplay = ({ data }) => {
-  // Default fallback chart data
   const fallbackData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'], // Default labels
+    labels: ['No Data'], // Default labels
     datasets: [
       {
         label: 'No data available',
-        data: [0, 0, 0, 0, 0], // Empty chart
+        data: [0], // Empty chart
         backgroundColor: 'rgba(200, 200, 200, 0.5)',
         borderColor: 'rgba(200, 200, 200, 0.8)',
       },
     ],
   };
 
-  const chartData = data?.chartData
+  const chartData = data?.labels && data?.chartData
     ? {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'], // Your actual labels
+        labels: data.labels, // Pass labels from the parent component
         datasets: [
           {
-            label: 'Sample Data',
-            data: data.chartData,
+            label: 'Confirmed Cases',
+            data: data.chartData, // Pass dataset values
             backgroundColor: 'rgba(75, 192, 192, 0.5)',
             borderColor: 'rgba(75, 192, 192, 0.8)',
+            fill: false,
           },
         ],
       }
@@ -35,9 +35,20 @@ const ChartDisplay = ({ data }) => {
 
   return (
     <div className="card ChartDisplay">
-      <Line data={chartData} options={{ responsive: true, maintainAspectRatio: false }} />
+      <Line
+        data={chartData}
+        options={{
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { title: { display: true, text: 'Dates' } },
+            y: { title: { display: true, text: 'Confirmed Cases' } },
+          },
+        }}
+      />
     </div>
   );
 };
+
 
 export default ChartDisplay;

@@ -11,27 +11,27 @@ import './ChartDisplay.css';
 import './DataDisplay.css';
 
 function App() {
-  const [data, setData] = useState(null); // State to store fetched data
-  const [loading, setLoading] = useState(false); // State to manage loading state
-  const [query, setQuery] = useState(''); // Query input field state
-  const [response, setResponse] = useState(null); // AI response state
-  const [dataset, setDataset] = useState(null); // Dataset state
-  const [model, setModel] = useState(''); // Predictive model state
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState('');
+  const [response, setResponse] = useState(null);
+  const [dataset, setDataset] = useState(null);
+  const [model, setModel] = useState('');
+  const [csvChartData, setCsvChartData] = useState(null);
 
-  // Fetch data from the backend when dataset and model are selected
   useEffect(() => {
     if (dataset && model) {
-      setLoading(true); // Start loading
+      setLoading(true);
       axios
         .get(`http://localhost:5000/api/data?dataset=${dataset}&model=${model}`)
         .then((response) => {
-          setData(response.data); // Set fetched data
+          setData(response.data);
         })
         .catch((error) => {
           console.error('Error fetching data:', error);
         })
         .finally(() => {
-          setLoading(false); // Stop loading
+          setLoading(false);
         });
     }
   }, [dataset, model]);
@@ -47,21 +47,23 @@ function App() {
           setDataset={setDataset}
           model={model}
           setModel={setModel}
+          setCsvChartData={setCsvChartData} // Pass down state setter
         />
 
         <div className="data-container">
-          {/* Text output on the left */}
           <div className="card DataDisplay">
             <DataDisplay text={data?.text || null} response={response} loading={loading} />
           </div>
 
-          {/* Visualized data (Chart) on the right */}
           <div className="card ChartDisplay">
-            <ChartDisplay data={data || {}} />
+            {csvChartData ? (
+              <ChartDisplay data={csvChartData} />
+            ) : (
+              <ChartDisplay data={data || {}} />
+            )}
           </div>
         </div>
 
-        {/* Query Input */}
         <div className="query-container-bottom">
           <QueryInput
             query={query}
@@ -69,16 +71,15 @@ function App() {
             handleQuerySubmit={async () => {
               if (!query) return;
 
-              setLoading(true); // Set loading state
+              setLoading(true);
               try {
                 const aiResponse = await axios.post('http://localhost:5000/api/ai', { query });
                 setResponse(aiResponse.data.response);
-                console.log('Sending query:', query);
               } catch (error) {
                 console.error('Error processing query:', error);
                 setResponse('An error occurred while fetching AI response.');
               } finally {
-                setLoading(false); // Reset loading state
+                setLoading(false);
               }
             }}
           />
