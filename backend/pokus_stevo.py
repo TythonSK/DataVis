@@ -2,7 +2,7 @@ import os
 import openai
 from dotenv import load_dotenv
 
-# Načítanie hodnôt z .env súboru
+# Načítanie hodnôt z ..env súboru
 load_dotenv()
 
 # Načítanie API kľúča z prostredia

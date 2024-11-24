@@ -6,22 +6,35 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const ChartDisplay = ({ data }) => {
-  const chartData = {
-    labels: ['January', 'February', 'March', 'April', 'May'],  // Example labels
+  // Default fallback chart data
+  const fallbackData = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'], // Default labels
     datasets: [
       {
-        label: 'Sample Data',
-        data: data.chartData || [12, 19, 3, 5, 2],  // Example data
-        fill: false,
-        backgroundColor: 'rgb(75, 192, 192)',
-        borderColor: 'rgba(75, 192, 192, 0.2)',
+        label: 'No data available',
+        data: [0, 0, 0, 0, 0], // Empty chart
+        backgroundColor: 'rgba(200, 200, 200, 0.5)',
+        borderColor: 'rgba(200, 200, 200, 0.8)',
       },
     ],
   };
 
+  const chartData = data?.chartData
+    ? {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'], // Your actual labels
+        datasets: [
+          {
+            label: 'Sample Data',
+            data: data.chartData,
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            borderColor: 'rgba(75, 192, 192, 0.8)',
+          },
+        ],
+      }
+    : fallbackData;
+
   return (
     <div className="card ChartDisplay">
-      {/* The responsive option ensures the chart adjusts automatically */}
       <Line data={chartData} options={{ responsive: true, maintainAspectRatio: false }} />
     </div>
   );

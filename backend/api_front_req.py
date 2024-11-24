@@ -1,11 +1,9 @@
-import os
-import openai
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 from pokus_stevo import ChatWithGPT  # Import the class from the other file
 
-# Load environment variables from the .env file
+# Load environment variables from the ..env file
 load_dotenv()
 
 # Initialize Flask app
