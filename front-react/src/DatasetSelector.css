@@ -1,8 +1,13 @@
-/* Keeps existing styles for select and file input */
+/* Centers the controls container */
 .controls {
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center;     /* Centers vertically */
+  gap: 10px;               /* Adds spacing between the buttons */
 }
 
+/* Existing select and file input styles */
 select,
 input[type="file"] {
   margin: 10px;
@@ -14,16 +19,11 @@ input[type="file"] {
 
 .dataset-select,
 .model-select {
-  width: 200px;
-}
-
-.upload-dataset {
-  width: 303px;
+  width: 10px;
 }
 
 /* Styling the download button to match the design */
 .download-btn {
-  margin: 10px;
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #ddd;
@@ -33,6 +33,7 @@ input[type="file"] {
   width: 200px;
   cursor: pointer;
   text-align: center;
+  margin-left: 20px;
 }
 
 .download-btn:hover {
@@ -55,14 +56,13 @@ input[type="file"] {
 
 /* Custom label styled to match the button */
 .upload-btn {
-  margin-left: 10px;
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #f0f0f0;
   color: #333;
-  width: 200px;
+  width: 167px;
   cursor: pointer;
   text-align: center;
   display: inline-block; /* Ensures proper button styling */

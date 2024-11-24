@@ -1,9 +1,11 @@
 import Papa from 'papaparse';
 
-export const parseCSVData = (csvString, country) => {
+export const parseCSVData = (csvString) => {
   const result = Papa.parse(csvString, { header: true });
   const data = result.data;
 
+  // Extract labels (dates) and values for a specific country
+  const country = 'Zimbabwe' // HARD-CODED - TODO: UN-HARD-CODE IT
   const labels = [];
   const values = [];
 
