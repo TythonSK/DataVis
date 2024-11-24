@@ -5,37 +5,47 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const ChartDisplay = ({ data }) => {
-  // Default fallback chart data
+const ChartDisplay = ({ data, chartRef }) => {
   const fallbackData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'], // Default labels
+    labels: ['No Data'], // Default labels
     datasets: [
       {
         label: 'No data available',
-        data: [0, 0, 0, 0, 0], // Empty chart
+        data: [0], // Empty chart
         backgroundColor: 'rgba(200, 200, 200, 0.5)',
         borderColor: 'rgba(200, 200, 200, 0.8)',
       },
     ],
   };
 
-  const chartData = data?.chartData
+  const chartData = data?.labels && data?.chartData
     ? {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'], // Your actual labels
+        labels: data.labels,
         datasets: [
           {
-            label: 'Sample Data',
+            label: 'Confirmed Cases',
             data: data.chartData,
             backgroundColor: 'rgba(75, 192, 192, 0.5)',
             borderColor: 'rgba(75, 192, 192, 0.8)',
+            fill: false,
           },
         ],
       }
     : fallbackData;
 
   return (
-    <div className="card ChartDisplay">
-      <Line data={chartData} options={{ responsive: true, maintainAspectRatio: false }} />
+    <div className="chart-canvas" ref={chartRef}> {/* Attach ref here */}
+      <Line
+        data={chartData}
+        options={{
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { title: { display: true, text: 'Dates' } },
+            y: { title: { display: true, text: 'Confirmed Cases' } },
+          },
+        }}
+      />
     </div>
   );
 };

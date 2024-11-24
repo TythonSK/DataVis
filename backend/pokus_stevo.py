@@ -41,4 +41,3 @@ class ChatWithGPT:
         except Exception as e:
             print(f"Error: {str(e)}")  # Log the error if one occurs
             return f"Error: {str(e)}"
-

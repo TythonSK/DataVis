@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import DatasetSelector from './DatasetSelector';
 import QueryInput from './QueryInput';
@@ -17,6 +17,7 @@ function App() {
   const [response, setResponse] = useState(null); // AI response state
   const [dataset, setDataset] = useState(null); // Dataset state
   const [model, setModel] = useState(''); // Predictive model state
+  const chartRef = useRef(null); // Reference for the chart to capture it for PNG download
 
   // Fetch data from the backend when dataset and model are selected
   useEffect(() => {
@@ -39,7 +40,14 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>AI-Powered Mockup Design</h1>
+        {/* Logo placed in the top-left corner */}
+        <img
+          src="/datavis-shark.png"
+          alt="Logo"
+          className="logo"
+        />
+
+        <h1>Data Visualisation by Žralokovia</h1>
 
         {/* Dataset Selector */}
         <DatasetSelector
@@ -47,6 +55,8 @@ function App() {
           setDataset={setDataset}
           model={model}
           setModel={setModel}
+          setCsvChartData={setData} // Pass the function to set the chart data
+          chartRef={chartRef} // Pass chartRef to DatasetSelector for chart export functionality
         />
 
         <div className="data-container">
@@ -57,7 +67,7 @@ function App() {
 
           {/* Visualized data (Chart) on the right */}
           <div className="card ChartDisplay">
-            <ChartDisplay data={data || {}} />
+            <ChartDisplay data={data || {}} chartRef={chartRef} /> {/* Pass chartRef to ChartDisplay */}
           </div>
         </div>
 
