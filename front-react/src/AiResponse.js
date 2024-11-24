@@ -7,10 +7,10 @@ const AiResponse = ({ response, loading }) => (
     ) : response ? (
       <div className="card">
         <h3>AI Response</h3>
-        <p>{response.result || 'No result from AI.'}</p>
+        <p>{response || 'No response from AI.'}</p>
       </div>
     ) : (
-      <p>Failed to load AI response.</p>
+      <p>Awaiting AI response...</p>
     )}
   </div>
 );
